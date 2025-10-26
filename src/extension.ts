@@ -16,10 +16,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showWarningMessage(
       'Flow Keeper: Please set your music directory in the settings.'
     );
-    return; 
+    return;
   }
 
-  const serverPath = path.join(context.extensionPath, "server", "server.js");
+  const serverPath = path.join(context.extensionPath, "out", "server", "server.js"); // Corrected path to point to 'out' directory
   serverProcess = fork(serverPath, [musicDir as string]);
 
   serverProcess.stdout?.on('data', (data) => {
@@ -33,7 +33,10 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(
       CustomSidebarViewProvider.viewType,
-      provider
+      provider,
+      { // <-- Pass the options here
+        webviewOptions: { retainContextWhenHidden: true }
+      }
     )
   );
 
@@ -45,6 +48,7 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 }
+
 export function deactivate() {
   if (serverProcess) {
     console.log('Shutting down music server...');

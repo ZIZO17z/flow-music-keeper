@@ -15,7 +15,7 @@ function activate(context) {
         vscode.window.showWarningMessage('Flow Keeper: Please set your music directory in the settings.');
         return;
     }
-    const serverPath = path.join(context.extensionPath, "server", "server.js");
+    const serverPath = path.join(context.extensionPath, "out", "server", "server.js"); // Corrected path to point to 'out' directory
     serverProcess = (0, child_process_1.fork)(serverPath, [musicDir]);
     serverProcess.stdout?.on('data', (data) => {
         console.log(`[Server]: ${data.toString()}`);
@@ -24,7 +24,9 @@ function activate(context) {
         console.error(`[Server ERROR]: ${data.toString()}`);
     });
     const provider = new customSidebarViewProvider_1.CustomSidebarViewProvider(context.extensionUri);
-    context.subscriptions.push(vscode.window.registerWebviewViewProvider(customSidebarViewProvider_1.CustomSidebarViewProvider.viewType, provider));
+    context.subscriptions.push(vscode.window.registerWebviewViewProvider(customSidebarViewProvider_1.CustomSidebarViewProvider.viewType, provider, {
+        webviewOptions: { retainContextWhenHidden: true }
+    }));
     context.subscriptions.push(vscode.commands.registerCommand("vscodeSidebar.menu.view", () => {
         vscode.window.showInformationMessage('To change your music folder, please update the "My Local Music Player: Music Directory" setting in VS Code preferences.');
     }));
