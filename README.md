@@ -1,3 +1,7 @@
+
+"myMusicPlayer.musicDirectory": "choose whereever place in your pc you want"
+after installing the .vsfx file you must go to your settings.json using ctrl+shift+p then choose settings.json after that add the line of code above 
+
 Flow Keeper (My Local Music Player)
 Flow Keeper is a Visual Studio Code extension that adds a music player directly into your sidebar. It's designed to help you stay in the "flow state" by playing music from your local computer without ever having to leave your editor.
 
