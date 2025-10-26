@@ -1,0 +1,100 @@
+{
+  "name": "flow-keeper",
+  "displayName": "Flow Keeper",
+  "description": "Track your coding flow state and play music to enhance productivity",
+  "version": "1.0.0",
+  "publisher": "flowkeeper",
+  "license": "MIT",
+  "repository": {
+    "type": "git"
+  },
+  "engines": {
+    "vscode": "^1.61.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:vscodeSidebar.openview"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Flow Keeper",
+      "properties": {
+        "myMusicPlayer.musicDirectory": {
+          "type": "string",
+          "default": "",
+          "description": "Path to your local music folder"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "custom-activitybar",
+          "title": "Flow Keeper",
+          "icon": "assets/logo_bito.svg"
+        }
+      ]
+    },
+    "views": {
+      "custom-activitybar": [
+        {
+          "type": "webview",
+          "id": "vscodeSidebar.openview",
+          "name": "Music Player",
+          "contextualTitle": "Flow Music"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "vscodeSidebar.menu.view",
+        "category": "Flow Keeper",
+        "title": "How to Use Player",
+        "icon": "$(info)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "vscodeSidebar.menu.view",
+          "group": "navigation",
+          "when": "view == vscodeSidebar.openview"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./ && cpx \"./assets/**\" ./out/assets && cpx \"./server/**\" ./out/server",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.4",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "14.x",
+    "@types/vscode": "^1.61.0",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "@vscode/test-electron": "^1.6.2",
+    "cpx": "^1.5.0",
+    "eslint": "^7.32.0",
+    "glob": "^7.1.7",
+    "mocha": "^9.1.1",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "music-metadata": "^7.14.0"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "commonjs"
+}
