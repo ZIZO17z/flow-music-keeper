@@ -34,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerWebviewViewProvider(
       CustomSidebarViewProvider.viewType,
       provider,
-      { // <-- Pass the options here
+      { 
         webviewOptions: { retainContextWhenHidden: true }
       }
     )
